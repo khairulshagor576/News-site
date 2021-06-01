@@ -37,7 +37,11 @@ $result=mysqli_query($conn,$sql) or die("Query Failed.");
                               <td class='id'><?php echo $row['user_id']?></td>
                               <td><?php echo $row['first_name']." ".$row['last_name'];?></td>
                               <td><?php echo $row['username'];?></td>
-                              <td><?php echo $row['role'];?></td>
+                              <td>
+                                <?php 
+                                     echo ($row['role']==1)? "Admin":"Normal";
+                                ?>
+                          </td>
                               <td class='edit'><a href='update-user.php'><i class='fa fa-edit'></i></a></td>
                               <td class='delete'><a href='delete-user.php'><i class='fa fa-trash-o'></i></a></td>
                           </tr>
