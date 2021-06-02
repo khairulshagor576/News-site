@@ -1,8 +1,19 @@
 <?php 
 include "header.php";
-include "config.php"; 
+include "config.php";
 
-$sql="SELECT * FROM category";
+//$page=$_GET['page'];
+$limit=3;
+if(isset($_GET['page']))
+{
+  $page=$_GET['page'];
+}else
+{
+  $page=1;
+}
+$offset=($page-1)*$limit; 
+
+$sql="SELECT * FROM category LIMIT {$offset},{$limit}";
 $result=mysqli_query($conn,$sql);
 ?>
 <div id="admin-content">
@@ -41,12 +52,23 @@ $result=mysqli_query($conn,$sql);
                     <?php } ?>    
                     </tbody>
                 </table>
-            <?php } ?>
-                <ul class='pagination admin-pagination'>
-                    <li class="active"><a>1</a></li>
-                    <li><a>2</a></li>
-                    <li><a>3</a></li>
-                </ul>
+            <?php }
+
+            $page_sql="SELECT * FROM category";
+            $output=mysqli_query($conn,$page_sql);
+            if(mysqli_num_rows($output)>0)
+            { 
+
+            $total_records=mysqli_num_rows($output); 
+            $total_pages=ceil($total_records/$limit);
+            echo "<ul class='pagination admin-pagination'>";
+            for ($i=1; $i <=$total_pages; $i++) 
+            { 
+               echo "<li><a href='category.php?page=".$i."'>".$i."</a></li>";      
+            }    
+            echo "</ul>";
+            } 
+            ?>    
             </div>
         </div>
     </div>
