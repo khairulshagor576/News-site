@@ -2,7 +2,18 @@
 include "header.php"; 
 include "config.php";
 
-$sql="SELECT * FROM user ORDER BY user_id DESC";
+$limit=3;
+
+if(isset($_GET['page']))
+{
+  $page=$_GET['page'];
+}else
+{
+  $page=1;
+}
+$offset=($page-1)*$limit;
+
+$sql="SELECT * FROM user ORDER BY user_id DESC LIMIT {$offset},{$limit}";
 $result=mysqli_query($conn,$sql) or die("Query Failed.");
 ?>
   <div id="admin-content">
@@ -49,11 +60,29 @@ $result=mysqli_query($conn,$sql) or die("Query Failed.");
                       </tbody>
                   </table>
                 <?php } ?>
-                  <ul class='pagination admin-pagination'>
-                      <li class="active"><a>1</a></li>
-                      <li><a>2</a></li>
-                      <li><a>3</a></li>
-                  </ul>
+                <?php 
+                $page_sql="SELECT * FROM user";
+                $output=mysqli_query($conn,$page_sql);
+
+                if(mysqli_num_rows($output)>0)
+                {
+                  $total_records=mysqli_num_rows($output); 
+                  $total_pages=ceil($total_records/$limit);
+
+                  echo "<ul class='pagination admin-pagination'>"; 
+                  for ($i=1; $i <=$total_pages ; $i++) 
+                  { 
+                    if($i==$page)
+                    {
+                      $active = "active";
+                    }else
+                    { 
+                      $active = "";
+                    }
+                    echo '<li class="'.$active.'"><a href="users.php?page='.$i.'">'.$i.'</a></li>';
+                  }
+                   echo " </ul>";
+                 } ?>  
               </div>
           </div>
       </div>
