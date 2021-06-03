@@ -38,7 +38,10 @@ if(!isset($_SESSION['username']))
                     </div>
                     <!-- /LOGO -->
                       <!-- LOGO-Out -->
-                    <div class="col-md-offset-9  col-md-1">
+                      <div class="col-md-offset-7  col-md-4">
+                        <a href="logout.php" class="admin-logout" >Hi, <?php echo $_SESSION['username'];?></a>
+                    </div>
+                     <div class="col-md-1">
                         <a href="logout.php" class="admin-logout" >logout</a>
                     </div>
                     <!-- /LOGO-Out -->

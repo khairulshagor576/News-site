@@ -1,4 +1,7 @@
-<?php include "header.php"; ?>
+<?php 
+include "header.php";
+include "config.php";
+ ?>
   <div id="admin-content">
       <div class="container">
          <div class="row">
@@ -19,7 +22,18 @@
                       <div class="form-group">
                           <label for="exampleInputPassword1">Category</label>
                           <select name="category" class="form-control">
-                              <option value="" selected> Select Category</option>
+                              <option disabled> Select Category</option>
+                              <?php 
+                               $sql="SELECT * FROM category";
+                               $result=mysqli_query($conn,$sql);
+                               if(mysqli_num_rows($result)>0)
+                               {
+                                 while ($row=mysqli_fetch_assoc($result)) 
+                                 {
+                                   echo "<option value='{$row["category_id"]}'>{$row['category_name']}</option>";
+                                 }
+                               }
+                              ?>
                           </select>
                       </div>
                       <div class="form-group">
