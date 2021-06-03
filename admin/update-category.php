@@ -1,6 +1,11 @@
 <?php 
 include "header.php"; 
 include "config.php"; 
+session_start();
+if($_SESSION['user_role']=='0')
+{
+   header("Location: {$hostname}/admin/post.php");
+}
 $category_id=$_GET['id'];
 
 if(isset($_POST['sumbit']))
