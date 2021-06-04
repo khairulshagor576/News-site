@@ -21,11 +21,23 @@ $offset=($page-1)*$limit;
               </div>
               <div class="col-md-12">
                 <?php
+                 if($_SESSION['user_role']=='1')
+                 {
                   $sql="SELECT * FROM post
                   LEFT JOIN category ON post.category=category.category_id
                   LEFT JOIN user ON post.author=user.user_id 
                   ORDER BY post.post_id DESC 
                   LIMIT {$offset},{$limit}";
+                 }elseif($_SESSION['user_role']=='0')
+                 {
+                  $sql="SELECT * FROM post
+                  LEFT JOIN category ON post.category=category.category_id
+                  LEFT JOIN user ON post.author=user.user_id
+                  WHERE post.author={$_SESSION['user_id']}
+                  ORDER BY post.post_id DESC 
+                  LIMIT {$offset},{$limit}";
+                 }
+                 
                   $result=mysqli_query($conn,$sql) or die("Query Failed.!!");
                   if(mysqli_num_rows($result)>0)
                   {
@@ -34,9 +46,9 @@ $offset=($page-1)*$limit;
                       <thead>
                           <th>S.No.</th>
                           <th>Title</th>
-                          <th>Description</th>
+                          <!-- <th>Description</th> -->
                           <th>Category</th>
-                          <th>Image</th>
+                          <!-- <th>Image</th> -->
                           <th>Date</th>
                           <th>Author</th>
                           <th>Edit</th>
@@ -51,9 +63,9 @@ $offset=($page-1)*$limit;
                           <tr>
                               <td class='id'><?php echo $row['post_id'];?></td>
                               <td><?php echo $row['title'];?></td>
-                              <td><?php echo $row['description'];?></td>
+                              <!-- <td><?php //echo $row['description'];?></td> -->
                               <td><?php echo $row['category_name'];?></td>
-                              <td><img src="upload/<?php echo $row['post_img'];?>" alt="post image" height="100" width="100"></td>
+                              <!-- <td><img src="upload/<?php //echo $row['post_img'];?>" alt="post image" height="100" width="100"></td> -->
                               <td><?php echo $row['post_date'];?></td>
                               <td><?php echo $row['username'];?></td>
                               <td class='edit'><a href='update-post.php'><i class='fa fa-edit'></i></a></td>
