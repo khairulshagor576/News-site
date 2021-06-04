@@ -22,7 +22,7 @@ $result=mysqli_query($conn,$sql);
             while ($row=mysqli_fetch_assoc($result)) 
             {
         ?>
-        <form action="" method="POST" enctype="multipart/form-data" autocomplete="off">
+        <form action="save-update-post.php" method="POST" enctype="multipart/form-data" autocomplete="off">
             <div class="form-group">
                 <input type="hidden" name="post_id"  class="form-control" value="<?php echo $row['post_id']?>" >
             </div>
@@ -58,17 +58,13 @@ $result=mysqli_query($conn,$sql);
                     }
                     
                     ?>
-                    <!-- <option value="">Html</option>
-                    <option value="">Css</option>
-                    <option value="">javascript</option>
-                    <option value="">Python</option> -->
                 </select>
             </div>
             <div class="form-group">
                 <label for="">Post image</label>
                 <input type="file" name="new-image">
                 <img  src="upload/<?php echo $row['post_img'];?>" height="150px">
-                <input type="hidden" name="old-image" value="">
+                <input type="hidden" name="old-image" value="<?php echo $row['post_img'];?>">
             </div>
             <input type="submit" name="submit" class="btn btn-primary" value="Update" />
         </form>
