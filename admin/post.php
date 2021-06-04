@@ -21,7 +21,11 @@ $offset=($page-1)*$limit;
               </div>
               <div class="col-md-12">
                 <?php
-                  $sql="SELECT * FROM post LIMIT {$offset},{$limit}";
+                  $sql="SELECT * FROM post
+                  LEFT JOIN category ON post.category=category.category_id
+                  LEFT JOIN user ON post.author=user.user_id 
+                  ORDER BY post.post_id DESC 
+                  LIMIT {$offset},{$limit}";
                   $result=mysqli_query($conn,$sql) or die("Query Failed.!!");
                   if(mysqli_num_rows($result)>0)
                   {
@@ -48,10 +52,10 @@ $offset=($page-1)*$limit;
                               <td class='id'><?php echo $row['post_id'];?></td>
                               <td><?php echo $row['title'];?></td>
                               <td><?php echo $row['description'];?></td>
-                              <td><?php echo $row['category'];?></td>
+                              <td><?php echo $row['category_name'];?></td>
                               <td><img src="upload/<?php echo $row['post_img'];?>" alt="post image" height="100" width="100"></td>
                               <td><?php echo $row['post_date'];?></td>
-                              <td><?php echo $row['author'];?></td>
+                              <td><?php echo $row['username'];?></td>
                               <td class='edit'><a href='update-post.php'><i class='fa fa-edit'></i></a></td>
                               <td class='delete'><a href='delete-post.php'><i class='fa fa-trash-o'></i></a></td>
                           </tr>
@@ -66,8 +70,15 @@ $offset=($page-1)*$limit;
                   $total_pages=ceil($total_records/$limit);
                   echo "<ul class='pagination admin-pagination'>";
                   for ($i=1; $i <=$total_pages; $i++) 
-                  {  
-                     echo "<li><a href='post.php?page={$i}'>{$i}</a></li>"; 
+                  { 
+                    if($i==$page)
+                    {
+                      $active = "active";
+                    }else
+                    { 
+                      $active = "";
+                    } 
+                     echo "<li class='".$active."'><a href='post.php?page={$i}'>{$i}</a></li>"; 
                   }
                      echo "</ul>";
                     }
