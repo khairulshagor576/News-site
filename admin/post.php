@@ -7,7 +7,6 @@ if(!empty($_GET['page']))
 }else{
     $page=1;
 }
-
 $offset=($page-1)*$limit;      
 ?>
   <div id="admin-content">
@@ -23,6 +22,7 @@ $offset=($page-1)*$limit;
                 <?php
                  if($_SESSION['user_role']=='1')
                  {
+                   //admin shows all post 
                   $sql="SELECT * FROM post
                   LEFT JOIN category ON post.category=category.category_id
                   LEFT JOIN user ON post.author=user.user_id 
@@ -30,6 +30,7 @@ $offset=($page-1)*$limit;
                   LIMIT {$offset},{$limit}";
                  }elseif($_SESSION['user_role']=='0')
                  {
+                  //normal user show only his post 
                   $sql="SELECT * FROM post
                   LEFT JOIN category ON post.category=category.category_id
                   LEFT JOIN user ON post.author=user.user_id
@@ -69,7 +70,7 @@ $offset=($page-1)*$limit;
                               <td><?php echo $row['post_date'];?></td>
                               <td><?php echo $row['username'];?></td>
                               <td class='edit'><a href='update-post.php?eid=<?php echo $row["post_id"]; ?>'><i class='fa fa-edit'></i></a></td>
-                              <td class='delete'><a href='delete-post.php?did=<?php echo $row["post_id"]; ?>'><i class='fa fa-trash-o'></i></a></td>
+                              <td class='delete'><a href='delete-post.php?id=<?php echo $row["post_id"]; ?>&catid=<?php echo $row["category"]; ?>'><i class='fa fa-trash-o'></i></a></td>
                           </tr>
                           <?php } ?>
                       </tbody>
